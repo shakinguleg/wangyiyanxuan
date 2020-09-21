@@ -4,7 +4,7 @@ module.exports = {
             postcss: {
                 plugins: [
                     require('postcss-pxtorem')({
-                        rootValue: 37.5,
+                        rootValue: 75,
                         unitPrecision: 5,
                         propList: ['*'],
                         selectorBlackList: [],
@@ -19,6 +19,15 @@ module.exports = {
         }
     },
     devServer: {
-        open: true
+        open: true,
+        proxy: {
+            "/api": {
+                target: 'https://m.you.163.com',
+                changeOrigin: true,
+                pathRewrite: {
+                    '/api': '/'
+                }
+            }
+        }
     }
 }
