@@ -17,11 +17,15 @@ export default {
       type: Boolean,
       default: true,
     },
+    scrollLeft: {
+      type: Number,
+      default: 30,
+    },
   },
 
   mounted() {
     this.scroll = new IScroll(this.$refs.scroll, {
-      bounce: false,
+      bounce: true,
       click: true,
       tap: true,
       scrollX: this.scrollX,
@@ -32,11 +36,23 @@ export default {
       this.scroll.refresh();
     });
   },
+  watch: {
+    scrollLeft: {
+      handler() {
+        this.scroll.scrollTo(-this.scrollLeft, 0);
+      },
+    },
+  },
 };
 </script>
 
 <style>
 .scroll_wrap {
   overflow: hidden;
+  touch-action: none;
+}
+
+.scroll_view {
+  width: max-content;
 }
 </style>

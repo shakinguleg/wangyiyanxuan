@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+// 首页路由
 import home from '../views/home/Home.vue';
-import GoodList from '../views/goodList/GoodList.vue';
+import goodList from '../views/home/children/goodList.vue';
+import homeList from '../views/home/children/homeList.vue';
 
 Vue.use(VueRouter)
 
@@ -14,13 +17,21 @@ const routes = [
   {
     path: "/home",
     name: 'home',
-    component: home
+    component: home,
+    children: [
+      {
+        path: "homeList",
+        name: 'homeList',
+        component: homeList
+      },
+      {
+        path: "goodList/:id",
+        name: "goodsList",
+        component: goodList
+      }
+    ]
   },
-  {
-    path: "/goodList",
-    name: "goodsList",
-    component: GoodList
-  }
+
 ]
 
 const router = new VueRouter({

@@ -7,27 +7,28 @@
     </div>
 
     <!-- 横向滚动条 -->
-    <homeNav></homeNav>
+    <homeNav v-model="currentIndex"></homeNav>
 
-    <!-- 轮播图 -->
-    <div></div>
+    <!-- 不同选项的标签页 -->
+    <router-view></router-view>
 
-    <!-- 优势 -->
-    <div></div>
-
-    <!--  kingkong模块 -->
-    <div></div>
+    <div class="bottom"></div>
   </div>
 </template>
 
 <script>
 import components from "../../components/index";
-import homeNav from "../../components/homeNav";
+import homeNav from "./component/homeNav";
 
 export default {
   components: {
     [components.search.name]: components.search,
     homeNav,
+  },
+  data() {
+    return {
+      currentIndex: 0,
+    };
   },
   methods: {
     //   展示物品详情列表
@@ -45,7 +46,8 @@ export default {
 .home_wrap {
   width: 100%;
   height: 100%;
-  background-color: red;
+  overflow: hidden;
+  position: relative;
 }
 
 .header {
@@ -64,5 +66,24 @@ export default {
   div {
     width: 532px;
   }
+}
+</style>
+
+<style>
+.page {
+  position: absolute;
+  top: 148px;
+  bottom: 97px;
+  width: 100%;
+  background-color: #eeeeee;
+  overflow: scroll;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  background-color: aqua;
+  height: 97px;
+  width: 100%;
 }
 </style>

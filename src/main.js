@@ -5,7 +5,9 @@ import store from './store'
 import VueLazyload from 'vue-lazyload'
 
 import scroll from './components/modules/scroll.vue';
+import swiper from "./views/home/component/swiper.vue";
 Vue.component("scroll", scroll)
+Vue.component("swiper", swiper)
 
 Vue.use(VueLazyload)
 
