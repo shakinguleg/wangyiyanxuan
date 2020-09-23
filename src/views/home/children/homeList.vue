@@ -1,7 +1,7 @@
 <template>
   <div class="homeList_wrap page">
     <!-- 轮播图 -->
-    <swiper class="swiper_width"></swiper>
+    <swiper class="swiper_width" v-model="bannerUrl" :width="width" :height="height"></swiper>
 
     <!-- 平台优势 -->
     <div class="policy">
@@ -55,7 +55,28 @@
 import { mapState } from "vuex";
 
 export default {
-  mounted() {},
+  data() {
+    return {
+      // 暂时拿不到首页轮播图数据
+      bannerList: [
+        {
+          picUrl:
+            "https://yanxuan.nosdn.127.net/d8c8dee5e4faed42aa4d8b08db6a6926.jpg?type=webp&imageView&quality=75&thumbnail=750x0",
+        },
+        {
+          picUrl:
+            "https://yanxuan.nosdn.127.net/431d859982dfe732edd3f92d5b308a7a.png?type=webp&imageView&quality=75&thumbnail=750x0",
+        },
+        {
+          picUrl:
+            "https://yanxuan.nosdn.127.net/1059736611334f6ea531057a918dfaff.jpg?type=webp&imageView&quality=75&thumbnail=750x0",
+        },
+      ],
+      width: "100%",
+      height: "3.94667rem",
+      bannerUrl: [],
+    };
+  },
   computed: {
     ...mapState({
       policy: (store) => store.home.policy,
@@ -63,6 +84,16 @@ export default {
       bigPromotion: (store) => store.home.bigPromotion,
       categoryHot: (store) => store.home.categoryHot,
     }),
+  },
+  mounted() {},
+  watch: {
+    bannerList: {
+      handler() {
+        // 拿到轮播图url地址
+        this.bannerUrl = this.bannerList.map((item) => item.picUrl);
+      },
+      immediate: true,
+    },
   },
 };
 </script>

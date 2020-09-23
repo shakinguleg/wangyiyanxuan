@@ -11,3 +11,7 @@ export const HOME_GLOBAL_URL = 'xhr/page/global.json'
 // 顶部不同板块数据
 export const HOME_NAV_URL = 'item/list.json'
 //__timestamp = 1600783409000 & categoryId=1010000
+
+// 商品详情
+// https://m.you.163.com/item/detail?id=1116033
+export const GOODS_DETAIL_URL = '/item/detail'

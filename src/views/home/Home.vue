@@ -10,8 +10,10 @@
     <homeNav v-model="currentIndex"></homeNav>
 
     <!-- 不同选项的标签页 -->
-    <router-view></router-view>
-
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+    
     <div class="bottom"></div>
   </div>
 </template>

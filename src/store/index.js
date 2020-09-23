@@ -5,6 +5,9 @@ import Vuex from 'vuex'
 import home from '../views/home/store/home';
 import homeNav from '../views/home/store/homeNav';
 
+// 详情页数据导入
+import goodsDetail from '../views/goods_detail/store/goods_detail';
+
 
 Vue.use(Vuex)
 
@@ -17,6 +20,7 @@ export default new Vuex.Store({
   },
   modules: {
     home,
-    homeNav
+    homeNav,
+    goodsDetail
   }
 })

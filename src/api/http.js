@@ -7,21 +7,19 @@ class Http {
         this.base_url = base_url;
     };
 
-    request(url, methods = "GET", data = {}) {
+    request(url, method = "GET", data = {}) {
         let option = {
             url,
-            methods,
+            method,
             baseURL: this.base_url,
-            headers: {
-                'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded',
-            }
+            headers: { 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8' },
         };
-        if (methods == "GET") {
+        if (method == "GET") {
             option = {
                 ...option,
                 params: data
             }
-        } else if (methods == "POST") {
+        } else if (method == "POST") {
             option = {
                 ...option,
                 data
@@ -36,6 +34,7 @@ class Http {
     }
 
     post(url, data = {}) {
+
         return this.request(url, "POST", data)
     }
 

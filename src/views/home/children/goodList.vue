@@ -1,6 +1,6 @@
 <template>
   <div class="good_list page">
-    <swiper v-model="bannerList"></swiper>
+    <swiper v-model="bannerUrl" :width="width" :height="height"></swiper>
     <!-- 所有商品分类列表项 -->
     <div class="category" v-for="(item,index) in itemList" :key="index">
       <!-- 商品分类 -->
@@ -13,7 +13,12 @@
         <!-- 该分类的商品 -->
         <div class="goods_wrap">
           <!-- 商品 -->
-          <div class="goods" v-for="i_item in item.itemList" :key="i_item.id">
+          <div
+            class="goods"
+            v-for="i_item in item.itemList"
+            :key="i_item.id"
+            @click="toGoodsDetail(i_item.id)"
+          >
             <div class="img_wrap">
               <img v-lazy="i_item.listPicUrl" alt />
               <span class="desc">{{i_item.simpleDesc}}</span>
@@ -38,6 +43,9 @@ export default {
   data() {
     return {
       cate: {},
+      bannerUrl: [],
+      width: "100%",
+      height: "3.94667rem",
     };
   },
   computed: {
@@ -45,6 +53,11 @@ export default {
       bannerList: (store) => store.homeNav.bannerList,
       itemList: (store) => store.homeNav.itemList,
     }),
+  },
+  methods: {
+    toGoodsDetail(id) {
+      this.$router.push({ name: "goods_detail", params: { id } });
+    },
   },
   mounted() {},
   watch: {
@@ -58,6 +71,13 @@ export default {
       },
       immediate: true,
       deep: true,
+    },
+    bannerList: {
+      handler() {
+        this.bannerUrl = this.bannerList.map((item) => item.picUrl);
+        console.log("this.bannerUrl : ", this.bannerUrl);
+      },
+      immediate: true,
     },
   },
 };
