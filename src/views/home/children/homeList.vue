@@ -167,6 +167,8 @@ export default {
   align-items: center;
   ul {
     width: 100%;
+    display: flex;
+    justify-content: center;
     &:nth-of-type(1) {
       li {
         width: 100%;

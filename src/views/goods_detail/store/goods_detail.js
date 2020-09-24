@@ -6,12 +6,28 @@ import axios from 'axios';
 export default {
     namespaced: true,
     state: {
-        goodsDetail: {}
+        goodsDetail: {},
+        id: "",
+        goodsInfo: {}
     },
     mutations: {
         setGoodsDetail(state, payload) {
             state.goodsDetail = payload
+        },
+        setGoodsId(state, payload) {
+            state.id = payload
+        },
+        sendTolocalStore(state, payload) {
+            const data = Object.values(state.goodsDetail.skuMap).find(item => { return item.id == state.id })
+            if (data) {
+                const { retailPrice, counterPrice, skuTitle, itemSkuSpecValueList, promBanner } = data
+                this.goodsInfo = {
+                    retailPrice, counterPrice, skuTitle, itemSkuSpecValueList, promBanner
+                }
+            }
+            window.localStorage.setItem('goodsInfo', JSON.stringify(this.goodsInfo))
         }
+
     },
     actions: {
         async getGoodsDetail(context, payload) {
@@ -34,9 +50,11 @@ export default {
             })
 
             const goodsDetail = { policyList, detailHtml, bannerUrl, attrList, detailPromBanner, promoTip, recommendReason, retailPrice, name, skuFreight, skuMap, shoppingReward, skuSpecList, remark, couponShortNameList, hdrkDetailVOList, adBanners, goodCmtRate, comments }
-            console.log('itemDetail: ', itemDetail);
+            // console.log('itemDetail: ', itemDetail);
 
             context.commit('setGoodsDetail', goodsDetail)
         }
+    },
+    getters: {
     }
 }

@@ -75,7 +75,6 @@ export default {
     bannerList: {
       handler() {
         this.bannerUrl = this.bannerList.map((item) => item.picUrl);
-        console.log("this.bannerUrl : ", this.bannerUrl);
       },
       immediate: true,
     },

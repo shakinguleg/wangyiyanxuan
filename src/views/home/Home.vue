@@ -14,7 +14,7 @@
       <router-view></router-view>
     </keep-alive>
     
-    <div class="bottom"></div>
+    
   </div>
 </template>
 
@@ -81,11 +81,5 @@ export default {
   overflow: scroll;
 }
 
-.bottom {
-  position: absolute;
-  bottom: 0;
-  background-color: aqua;
-  height: 97px;
-  width: 100%;
-}
+
 </style>

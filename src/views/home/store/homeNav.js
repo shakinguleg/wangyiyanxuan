@@ -52,7 +52,7 @@ export default {
                     })),
                 }
             })
-            console.log('itemList: ', itemList);
+            // console.log('itemList: ', itemList);
             context.commit('setItemList', itemList)
             context.commit('setBannerList', bannerList)
         }
