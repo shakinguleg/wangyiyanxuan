@@ -50,7 +50,23 @@
         </div>
 
         <!-- 优惠返利 -->
-        <div class="discount_select"></div>
+        <div class="discount_select">
+          <popPage>
+            <template v-slot:item>
+              <div class="selected item_block">
+                <div class="wrap">
+                  <span>已选择:</span>
+                  <span>请选择商品</span>
+                </div>
+                <span class="iconfont icon-jiantou-down"></span>
+              </div>
+            </template>
+            <template v-slot:title>title</template>
+            <template v-slot:content>
+              <div>content</div>
+            </template>
+          </popPage>
+        </div>
 
         <!-- 个人选择 -->
         <div class="select">
@@ -88,12 +104,14 @@
 <script>
 import { mapState } from "vuex";
 import selectPage from "./component/select_page";
+import popPage from "./component/popPage";
 import shopHeader from "../../components/shop_header";
 
 export default {
   components: {
     selectPage,
     shopHeader,
+    popPage,
   },
   data() {
     return {
@@ -144,7 +162,7 @@ export default {
     width: 100%;
     left: 0;
     overflow: auto;
-    background-color: #eee;
+    background-color: #ccc;
 
     // 弹出的商品规格选择
     .select_goods {
@@ -167,6 +185,7 @@ export default {
       background-color: rgb(244, 244, 244);
       overflow: scroll;
       z-index: 2;
+      padding-bottom: 20px;
 
       .swiper {
         width: 100%;
@@ -256,14 +275,15 @@ export default {
 
       // 各种促销优惠
       .discount_select {
+        margin-top: 20px;
         width: 100%;
-        background-color: #f48f18;
+        background-color: white;
       }
 
       .select {
         width: 100%;
         box-sizing: border-box;
-        padding: 20px 0;
+        margin-top: 20px;
         .select_page {
           width: 100%;
           .selected {
@@ -320,7 +340,7 @@ export default {
     height: 105px;
     display: flex;
     align-items: center;
-    
+
     .wrap {
       width: 640px;
       display: flex;
