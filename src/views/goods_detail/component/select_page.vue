@@ -148,7 +148,13 @@ export default {
       // 向仓库提交选择的物品id
       handler(newVal) {
         this.$store.commit("goodsDetail/setGoodsId", newVal);
-        
+        this.num = 1;
+      },
+    },
+    num: {
+      // 数量有变化时提交
+      handler(newVal) {
+        this.$store.commit("goodsDetail/setGoodsNum", newVal);
       },
     },
   },

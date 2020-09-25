@@ -1,6 +1,5 @@
 import http from '../../../api/http';
 import { GOODS_DETAIL_URL } from '../../../api/url';
-import axios from 'axios';
 
 
 export default {
@@ -8,7 +7,8 @@ export default {
     state: {
         goodsDetail: {},
         id: "",
-        goodsInfo: {}
+        goodsInfo: {},
+        num: 1,
     },
     mutations: {
         setGoodsDetail(state, payload) {
@@ -17,15 +17,38 @@ export default {
         setGoodsId(state, payload) {
             state.id = payload
         },
-        sendTolocalStore(state, payload) {
+        setGoodsNum(state, payload) {
+            state.num = payload
+        },
+
+        sendToLocalStorage(state, payload) {
             const data = Object.values(state.goodsDetail.skuMap).find(item => { return item.id == state.id })
+
             if (data) {
                 const { retailPrice, counterPrice, skuTitle, itemSkuSpecValueList, promBanner } = data
-                this.goodsInfo = {
-                    retailPrice, counterPrice, skuTitle, itemSkuSpecValueList, promBanner
+                var num = state.num
+                state.goodsInfo =
+                {
+                    [state.id]:
+                    {
+                        retailPrice, counterPrice, skuTitle, itemSkuSpecValueList, promBanner, num
+                    }
                 }
+
             }
-            window.localStorage.setItem('goodsInfo', JSON.stringify(this.goodsInfo))
+
+            // 检测购物车中是否已经有该商品
+            var goods = window.localStorage.getItem("goodsInfo")
+            if (goods) {
+                goods = JSON.parse(goods);
+                if (goods[state.id]) {
+                    goods[state.id].num += state.num
+                }
+                state.goodsInfo = { ...state.goodsInfo, ...goods }
+                window.localStorage.setItem('goodsInfo', JSON.stringify(state.goodsInfo))
+            }
+            window.localStorage.setItem('goodsInfo', JSON.stringify(state.goodsInfo))
+
         }
 
     },
@@ -33,7 +56,7 @@ export default {
         async getGoodsDetail(context, payload) {
             let { data } = await http.get(GOODS_DETAIL_URL, payload)
 
-            // console.log('data: ', data);
+            // 
 
             const { item, policyList } = data
 
@@ -50,7 +73,7 @@ export default {
             })
 
             const goodsDetail = { policyList, detailHtml, bannerUrl, attrList, detailPromBanner, promoTip, recommendReason, retailPrice, name, skuFreight, skuMap, shoppingReward, skuSpecList, remark, couponShortNameList, hdrkDetailVOList, adBanners, goodCmtRate, comments }
-            // console.log('itemDetail: ', itemDetail);
+            // 
 
             context.commit('setGoodsDetail', goodsDetail)
         }

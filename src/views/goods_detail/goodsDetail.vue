@@ -107,8 +107,8 @@ export default {
       this.$router.back();
     },
     addCart() {
-      // 加入购物车逻辑
-      this.$store.commit("goodsDetail/sendTolocalStore");
+      // 加入购物车
+      this.$store.commit("goodsDetail/sendToLocalStorage");
     },
   },
   watch: {
