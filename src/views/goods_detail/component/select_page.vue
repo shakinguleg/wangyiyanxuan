@@ -167,7 +167,7 @@ export default {
   width: 100%;
   .item_show {
     width: 100%;
-    background-color: lightcyan;
+    background-color: white;
   }
 
   // 商品选择界面

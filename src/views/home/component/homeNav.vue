@@ -1,15 +1,22 @@
 <template>
   <div class="homeNav_wrap">
     <!-- 滚动栏 -->
-    <scroll class="homeNav" :scrollX="true" :scrollY="false" :scrollLeft="scrollLeft">
+    <scroll
+      class="homeNav"
+      :scrollX="true"
+      :scrollY="false"
+      :scrollLeft="scrollLeft"
+    >
       <ul>
         <li
-          v-for="(item,index) in cate_list"
+          v-for="(item, index) in cate_list"
           :key="item.id"
-          :class="{light:index==value}"
+          :class="{ light: index == value }"
           @click="setCurrentIndex(index)"
           ref="scrollLi"
-        >{{item.name}}</li>
+        >
+          {{ item.name }}
+        </li>
       </ul>
     </scroll>
 
@@ -43,6 +50,7 @@ export default {
         { name: "推荐", id: 11 },
         ...state.homeNav.cateList,
       ],
+      currentIndex: (store) => store.currentIndex,
     }),
   },
   methods: {
@@ -67,6 +75,13 @@ export default {
         }
       },
       immediate: true,
+    },
+    currentIndex: {
+      handler(newVal) {
+        if (newVal == 0) {
+          this.setCurrentIndex(0);
+        }
+      },
     },
   },
 };

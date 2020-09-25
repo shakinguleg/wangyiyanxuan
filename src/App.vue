@@ -1,26 +1,29 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <div class="bottom">
       <div
         class="bottom_wrap"
-        v-for="(item,index) in iconfontClass"
+        v-for="(item, index) in iconfontClass"
         :key="index"
-        :class="{light:index==currentIndex}"
+        :class="{ light: index == currentIndex }"
         @click="setCurrentIndex(index)"
       >
         <span class="iconfont" :class="item.icon"></span>
-        <span>{{item.name}}</span>
+        <span>{{ item.name }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
-      currentIndex: 0,
       iconfontClass: [
         { icon: "icon-zhuye", name: "首页", to: "home" },
         { icon: "icon-guizi", name: "分类" },
@@ -31,17 +34,24 @@ export default {
     };
   },
   mounted() {},
+  computed: {
+    ...mapState({
+      currentIndex: (store) => store.currentIndex,
+    }),
+  },
   methods: {
     setCurrentIndex(index) {
-      this.currentIndex = index;
+      this.$store.commit("setCurrentIndex", index);
+      this.$router.push({ name: this.iconfontClass[index].to });
     },
   },
   watch: {
     currentIndex: {
       handler(newVal) {
-        this.$router.push({ name: this.iconfontClass[newVal].to });
+        if (newVal == 0) {
+          this.$router.push({ name: "homeList" });
+        }
       },
-      immediate: true,
     },
   },
 };

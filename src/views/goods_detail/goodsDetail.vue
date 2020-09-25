@@ -1,45 +1,48 @@
 <template>
   <div class="goods_detail">
-    <div class="header">
-      <span class="iconfont icon-zhuye" @click="back"></span>
-      <div class="center_wrap">
-        <span class="title">网易严选</span>
-        <span class="iconfont icon-sousuo"></span>
-      </div>
-      <span class="iconfont icon-gouwuchedaohanglan"></span>
-    </div>
+    <shopHeader></shopHeader>
 
     <div class="detail_page">
       <!-- 商品详情界面 -->
       <div class="detail_wrap">
         <!-- 轮播图 -->
-        <swiper class="swiper" :width="width" :height="height" v-model="goodsDetail.bannerUrl"></swiper>
+        <swiper
+          class="swiper"
+          :width="width"
+          :height="height"
+          v-model="goodsDetail.bannerUrl"
+        ></swiper>
 
         <!-- 活动-->
         <div class="prom"></div>
 
         <!-- 领券 -->
-        <div class="top_text" v-if="goodsDetail.promoTip">{{goodsDetail.promoTip}}</div>
+        <div class="top_text" v-if="goodsDetail.promoTip">
+          {{ goodsDetail.promoTip }}
+        </div>
 
         <!-- 商品价格、推荐理由 -->
         <div class="sail_info">
-          <div class="sail_price">￥{{goodsDetail.retailPrice}}</div>
+          <div class="sail_price">￥{{ goodsDetail.retailPrice }}</div>
 
           <!-- 推荐理由 -->
           <div class="recommend">
             <div class="wrap">
-              <div class="name">{{goodsDetail.name}}</div>
+              <div class="name">{{ goodsDetail.name }}</div>
               <span class="re_text">推荐理由</span>
             </div>
             <ul>
-              <li v-for=" (item,index) in goodsDetail.recommendReason" :key="index">
-                <span>{{index}}</span>
-                <div>{{item}}</div>
+              <li
+                v-for="(item, index) in goodsDetail.recommendReason"
+                :key="index"
+              >
+                <span>{{ index }}</span>
+                <div>{{ item }}</div>
               </li>
             </ul>
             <!-- 好评率 -->
             <div class="goodRate">
-              <span class="rate">{{goodsDetail.goodCmtRate}}</span>
+              <span class="rate">{{ goodsDetail.goodCmtRate }}</span>
               <span class="text">好评率</span>
               <span class="iconfont"></span>
             </div>
@@ -47,18 +50,18 @@
         </div>
 
         <!-- 优惠返利 -->
-        <div class="discount_select">
-          <div class="test">111</div>
-        </div>
+        <div class="discount_select"></div>
 
         <!-- 个人选择 -->
         <div class="select">
           <selectPage class="select_page" v-model="isShow">
             <template>
-              <div class="selected">
-                <span>已选择</span>
-                <span>g黑色选择</span>
-                <span class="iconfont"></span>
+              <div class="selected item_block">
+                <div class="wrap">
+                  <span>已选择:</span>
+                  <span>请选择商品</span>
+                </div>
+                <span class="iconfont icon-jiantou-down"></span>
               </div>
             </template>
           </selectPage>
@@ -74,7 +77,7 @@
 
     <div class="bottom">
       <span class="server iconfont icon-kefu" v-if="!isShow"></span>
-      <span class="server" v-if="isShow" @click="isShow= false">返回</span>
+      <span class="server" v-if="isShow" @click="isShow = false">返回</span>
 
       <span class="bottom_center">立即购买</span>
       <span class="add" @click="addCart">加入购物车</span>
@@ -85,10 +88,12 @@
 <script>
 import { mapState } from "vuex";
 import selectPage from "./component/select_page";
+import shopHeader from "../../components/shop_header";
 
 export default {
   components: {
     selectPage,
+    shopHeader,
   },
   data() {
     return {
@@ -103,9 +108,6 @@ export default {
     }),
   },
   methods: {
-    back() {
-      this.$router.back();
-    },
     addCart() {
       // 加入购物车
       this.$store.commit("goodsDetail/sendToLocalStorage");
@@ -114,16 +116,13 @@ export default {
   watch: {
     "$route.params.id": {
       handler(newVal) {
+        this.isShow = false;
         this.$store.dispatch("goodsDetail/getGoodsDetail", { id: newVal });
       },
       immediate: true,
     },
   },
-  mounted() {
-    // var div = document.createElement("div");
-    // div.innerHTML = this.picHtml;
-    // this.$refs.photo.append(div);
-  },
+  mounted() {},
 };
 </script>
 
@@ -137,51 +136,15 @@ export default {
   position: relative;
   z-index: 3;
 
-  // 头部
-  .header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 0 16px 0 24px;
-    display: flex;
-    height: 88px;
-    justify-content: space-between;
-    align-items: center;
-    .icon-zhuye {
-      font-size: 38px;
-    }
-    .icon-gouwuchedaohanglan {
-      font-size: 48px;
-    }
-    .center_wrap {
-      flex: 1;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      position: relative;
-      .title {
-        font-size: 38px;
-        line-height: 88px;
-      }
-      .icon-sousuo {
-        font-size: 38px;
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translate(0, -50%);
-      }
-    }
-  }
-
   // 中间页面
   .detail_page {
     position: absolute;
-    top: 88px;
+    top: 90px;
     bottom: 106px;
     width: 100%;
     left: 0;
+    overflow: auto;
+    background-color: #eee;
 
     // 弹出的商品规格选择
     .select_goods {
@@ -242,14 +205,16 @@ export default {
           flex-direction: column;
           align-items: flex-start;
           .wrap {
-            width: 100%;
+            width: 518px;
             .name {
+              width: 100%;
               font-size: 32px;
               color: #333;
               font-weight: bold;
               margin-bottom: 4px;
             }
             .re_text {
+              width: 100%;
               height: 32px;
               line-height: 32px;
               font-size: 24px;
@@ -293,14 +258,12 @@ export default {
       .discount_select {
         width: 100%;
         background-color: #f48f18;
-        .test {
-          width: 100%;
-          height: 1000px;
-        }
       }
 
       .select {
         width: 100%;
+        box-sizing: border-box;
+        padding: 20px 0;
         .select_page {
           width: 100%;
           .selected {
@@ -348,6 +311,36 @@ export default {
       background-color: #dd1a21;
       color: white;
       border: 1px solid #dd1a21;
+    }
+  }
+  .item_block {
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: 30px;
+    height: 105px;
+    display: flex;
+    align-items: center;
+    
+    .wrap {
+      width: 640px;
+      display: flex;
+      align-items: center;
+      font-size: 28px;
+      span {
+        &:nth-of-type(2) {
+          margin-left: 20px;
+        }
+      }
+    }
+    .icon-jiantou-down {
+      font-size: 30px;
+      width: 50px;
+      height: 50px;
+      transform: rotate(-90deg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 20px;
     }
   }
 }

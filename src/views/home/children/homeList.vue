@@ -111,13 +111,14 @@ export default {
 
 // 平台优势
 .policy {
+  background-color: white;
   display: flex;
   justify-content: space-around;
   width: 690px;
+  padding:0 30px;
   li {
     width: 33%;
     height: 72px;
-    background-color: azure;
     display: flex;
     align-items: center;
     span {
@@ -140,6 +141,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   padding-bottom: 32px;
+  background-color: white;
   .block {
     width: 20%;
     height: 156px;

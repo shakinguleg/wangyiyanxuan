@@ -86,13 +86,15 @@
           >已优惠:￥{{ -totalCounte }}</span
         >
       </div>
-      <div class="buy" :class="{ light: totalNum }">下单</div>
+      <div class="buy" :class="{ light: totalNum }" @click="toOrder">下单</div>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import components from "../../components";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -109,6 +111,11 @@ export default {
       totalNum: 0, //选择总数
       advan: ["30天无忧退货", "48小时快速退款", "满99元免邮费"],
     };
+  },
+  computed: {
+    ...mapState({
+      currentIndex: (store) => store.currentIndex,
+    }),
   },
   methods: {
     // 数量加一
@@ -171,6 +178,18 @@ export default {
       this.$refs.ck.map((item) => (item.isShow = this.isTotal));
       this.isSelected();
     },
+    toOrder() {
+      this.$store.commit("cart/setOrderList", this.orderList);
+      this.$store.commit("cart/setTotalRetail", this.totalRetail);
+      this.$store.commit("cart/setTotalCounte", this.totalCounte);
+      this.$router.push({ name: "order" });
+    },
+
+    // 获取数据
+    refresh() {
+      const goodsList = window.localStorage.getItem("goodsInfo");
+      this.goodsArr = Object.values(JSON.parse(goodsList));
+    },
   },
 
   watch: {
@@ -208,11 +227,17 @@ export default {
         this.$refs.all.isShow = newVal;
       },
     },
+
+    currentIndex: {
+      handler(newVal) {
+        if (newVal == 3) {
+          this.refresh();
+        }
+      },
+      immediate:true
+    },
   },
-  mounted() {
-    const goodsList = window.localStorage.getItem("goodsInfo");
-    this.goodsArr = Object.values(JSON.parse(goodsList));
-  },
+  mounted() {},
 };
 </script>
 
@@ -268,7 +293,7 @@ export default {
       align-items: center;
       height: 70px;
       flex-shrink: 0;
-      
+
       .block {
         display: flex;
         align-items: center;
